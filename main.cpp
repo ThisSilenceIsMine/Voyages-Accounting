@@ -6,6 +6,8 @@
 #include <QSqlRelationalTableModel>
 #include <QQmlContext>
 
+#include "driverstablemodel.h"
+
 int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);    
@@ -20,9 +22,20 @@ int main(int argc, char *argv[])
         qFatal("Cannot connect to database!");
     }
 
+    DriversTableModel *driversModel = new DriversTableModel;
+    driversModel->setTable("drivers");
+    driversModel->generateRoles();
+    driversModel->select();
+
+    DriversTableModel* model = new DriversTableModel;
+
     QQmlApplicationEngine engine;
+
     qmlRegisterSingletonType(QUrl("qrc:///Constants.qml"), "App", 1, 0, "Constants");
-//    QQmlContext* context = engine.rootContext();
+
+    QQmlContext* context = engine.rootContext();
+    context->setContextProperty("driversModel", driversModel);
+
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
@@ -34,5 +47,6 @@ int main(int argc, char *argv[])
     engine.load(url);
 
     voyagesdb.close();
+    delete driversModel;
     return app.exec();
 }

@@ -6,5 +6,7 @@
         <file>Constants.qml</file>
         <file>Login.qml</file>
         <file>LoginForm.ui.qml</file>
+        <file>Drivers.qml</file>
+        <file>DriversForm.ui.qml</file>
     </qresource>
 </RCC>

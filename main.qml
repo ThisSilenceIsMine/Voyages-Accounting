@@ -4,6 +4,8 @@ import QtQuick.Layouts 1.12
 import QtQuick.Controls.Material 2.12
 import Qt.labs.qmlmodels 1.0
 
+import SqlRelationalTableModel 1.0
+
 ApplicationWindow {
     id: window
     visible: true
@@ -11,11 +13,16 @@ ApplicationWindow {
     height: Constants.height
     title: qsTr("Voyages Accounting")
     color: "#303030"
+
+    Component.onCompleted: {
+        //console.log("At root created: " + driversModel)
+    }
+
     RowLayout {
+        anchors.fill: parent
         SideBar { //Left-side menu
-            anchors.left: parent.left
-            anchors.bottom: parent.bottom
-            anchors.top: parent.top
+            Layout.alignment: Qt.AlignLeft
+            Layout.fillHeight: true
 
             ListModel {
                 id: sideMenuModel
@@ -39,12 +46,12 @@ ApplicationWindow {
                 highlight: sideBarHighlight
                 clip: true
                 delegate: Rectangle {
-                    width: parent.width+2
+                    width: parent.width
                     height: 50
                     color: "#232323"
                     Text {
                         anchors.centerIn: parent
-                        text: title
+                        text: model.title//title
                         font.pointSize: 16
                         color: "white"
                     }
@@ -76,7 +83,7 @@ ApplicationWindow {
 
             }
             DriversForm {
-
+                //model: driversModel
             }
         }
     }

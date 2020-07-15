@@ -18,10 +18,9 @@ Item {
         anchors.fill: parent
 
         ColumnLayout {
-            width: 337
-            height: 143
-            anchors.left: parent.left
-            anchors.leftMargin: 321
+            width: 338
+            height: 187
+            spacing: 10
             anchors.verticalCenterOffset: -31
             anchors.horizontalCenterOffset: 0
             //columnSpacing: 30
@@ -47,21 +46,19 @@ Item {
                 scale: 1.3
                 placeholderText: qsTr("Password")
             }
-        }
 
-        Button {
-            id: button
-            x: 440
-            y: 425
-            text: qsTr("Sign in")
-            anchors.horizontalCenter: parent.horizontalCenter
+            Button {
+                id: button
+                text: qsTr("Sign in")
+                Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+            }
         }
     }
 }
 
 /*##^##
 Designer {
-    D{i:1;anchors_height:200;anchors_width:200;anchors_x:380;anchors_y:217}
+    D{i:5;anchors_x:440;anchors_y:425}D{i:1;anchors_height:200;anchors_width:200;anchors_x:380;anchors_y:217}
 }
 ##^##*/
 

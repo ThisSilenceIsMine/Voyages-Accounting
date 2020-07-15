@@ -1,16 +1,18 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QDebug>
+#include <QQmlContext>
+
 #include <QtSql>
 #include <QSqlDatabase>
 #include <QSqlRelationalTableModel>
-#include <QQmlContext>
 
-#include "driverstablemodel.h"
+
+#include "sqlrelationaltablemodel.h"
 
 int main(int argc, char *argv[])
 {
-    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);    
+    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
     QGuiApplication app(argc, argv);
 
@@ -22,20 +24,26 @@ int main(int argc, char *argv[])
         qFatal("Cannot connect to database!");
     }
 
-    DriversTableModel *driversModel = new DriversTableModel;
-    driversModel->setTable("drivers");
-    driversModel->generateRoles();
-    driversModel->select();
+//    SqlRelationalTableModel *driversModel = new SqlRelationalTableModel;
 
-    DriversTableModel* model = new DriversTableModel;
+//    if(!driversModel->select()) {
+//        qWarning() << "Model select failed!";
+//    }
+
+    //qDebug() << driversModel->roleNames();
+    //qDebug() << driversModel->data(driversModel->index(1,1),257);
+
 
     QQmlApplicationEngine engine;
 
+    qmlRegisterType<SqlRelationalTableModel>("SqlRelationalTableModel",1,0,"SqlRelationalTableModel");
+
+//    SqlRelationalTableModel *driversModel = new SqlRelationalTableModel;
+//    driversModel->setTableName("drivers");
+
+//    engine.rootContext()->setContextProperty(QStringLiteral("driversModel"), driversModel);
+
     qmlRegisterSingletonType(QUrl("qrc:///Constants.qml"), "App", 1, 0, "Constants");
-
-    QQmlContext* context = engine.rootContext();
-    context->setContextProperty("driversModel", driversModel);
-
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
@@ -46,7 +54,9 @@ int main(int argc, char *argv[])
 
     engine.load(url);
 
+    //qDebug() << "Model Context Property:" << engine.rootContext()->contextProperty("driversModel");
+
     voyagesdb.close();
-    delete driversModel;
+    //delete driversModel;
     return app.exec();
 }

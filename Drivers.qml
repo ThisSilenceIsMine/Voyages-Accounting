@@ -5,5 +5,4 @@ DriversForm {
     element.height: Constants.height
     element.rectangle.color: Constants.formColor
 
-
 }
